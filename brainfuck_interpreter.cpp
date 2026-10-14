@@ -13,12 +13,14 @@ ifstream fin("input.in");
 vector<unsigned long long> whiles;
 int tapePos, codeLen, inputLen, inputPos;
 unsigned char tape[TAPE_MAX_SIZE];
-string code, input, msg;
+string code, input;
 
 bool compile();
 
 int main () {
     if (!compile()) { cout << '\n'; return 0; }
+
+    ofstream fout("output.out");
     
     for (unsigned long long i = 0; i < codeLen; i++) {
         switch(code[i]) {
@@ -29,7 +31,7 @@ int main () {
             case '-': { tape[tapePos]--; break; }
 
             case ',': { tape[tapePos] = (inputPos == inputLen) ? 0 : input[inputPos++]; break; }
-            case '.': { cout << tape[tapePos]; break; }
+            case '.': { cout << tape[tapePos]; fout << tape[tapePos]; break; }
 
             case '[': { if (tape[tapePos] == 0) { i = whiles[i]; } break; }
             case ']': { if (tape[tapePos] != 0) { i = whiles[i]; } break; }
